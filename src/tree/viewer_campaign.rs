@@ -5,23 +5,12 @@ use deadpool_postgres::{Pool, Object};
 use serde::Serialize;
 use chrono::serde::ts_milliseconds;
 
-//에러가 나융
-mod viewer;
-use viewer::Viewer;
+use super::viewer::Viewer;
 
 fn db_error<E: std::fmt::Debug>(e: E) -> Error {
   println!("Database error: {:?}", e);
   error::ErrorInternalServerError("Internal server error")
 }
-
-// pub struct Viewer {}
-
-// impl Viewer {
-//   pub fn return_id() -> String {
-//     let id = "id-1";
-//     id.to_owned()
-//   }
-// }
 
 #[get("/campaign")]
 async fn campaign(pool: web::Data<Pool>) -> Result<HttpResponse> {
