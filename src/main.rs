@@ -1,8 +1,10 @@
+use std::env;
 use actix_web::{web, App, HttpServer};
 use deadpool_postgres::{Config, ManagerConfig, Pool, Runtime};
 use tokio_postgres::NoTls;
 
 mod http;
+mod tree;
 
 fn env(key: &str) -> Option<String> {
     match std::env::var(key) {
@@ -26,10 +28,16 @@ fn establish_pool() -> Pool {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env::set_var("DB_NAME", "");
+    env::set_var("DB_USERNAME", "");
+    env::set_var("DB_PASSWORD", "");
+    env::set_var("DB_HOST", "");
+
     HttpServer::new(|| {
         App::new()
             .app_data(web::Data::new(establish_pool()))
             .configure(http::config)
+            .service(web::scope("/test").configure(tree::config))
     })
     .bind(("127.0.0.1", 8000))?
     .run()
