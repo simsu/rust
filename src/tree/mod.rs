@@ -4,6 +4,5 @@ pub(crate) mod viewer;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
   cfg
-  .service(viewer_campaign::campaign)
-  .service(test::test_);
+  .service(viewer_campaign::campaign);
 }

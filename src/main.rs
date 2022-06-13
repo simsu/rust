@@ -3,7 +3,6 @@ use actix_web::{web, App, HttpServer};
 use deadpool_postgres::{Config, ManagerConfig, Pool, Runtime};
 use tokio_postgres::NoTls;
 
-mod http;
 mod tree;
 
 fn env(key: &str) -> Option<String> {
